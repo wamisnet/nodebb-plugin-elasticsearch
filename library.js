@@ -252,7 +252,11 @@ Elasticsearch.search = function(data, callback) {
 		} else if (obj && obj.hits && obj.hits.hits && obj.hits.hits.length > 0) {
 			
 			var payload = obj.hits.hits.map(function(result) {
-				return parseInt(result._source.pid, 10);
+				var data = parseInt(result._source.pid, 10);
+				if(isNaN(data)){
+				     data = parseInt(result._source.mainPid, 10);	
+				}
+				return data;
 			});
 			console.log(payload);
 			callback(null, payload);
